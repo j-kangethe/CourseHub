@@ -36,7 +36,7 @@ require_role('student')
         </div>
 
 
-        <div class="relative px-4 py-2 text-white">
+        <div class=" text-white">
             <div class="flex items-center justify-between cursor-pointer" id="userToggle">
                 <p class="font-semibold"><?= htmlspecialchars($_SESSION['fullname']); ?></p>
                 <span id="arrow" class="transition-transform duration-500">▼</span>
@@ -44,7 +44,7 @@ require_role('student')
 
             <!-- Dropdown -->
 
-            <div  id="userDropdown" class="origin-top scale-y-0 opacity-0 left-0 mt-2 w-64 bg-green-700 text-white rounded-lg shadow-lg p-4 z-50 transform transition-all duration-500">
+            <div  id="userDropdown" class="origin-top scale-y-0 opacity-0 left-0 mt-2 w-60 bg-green-700 text-white rounded-lg shadow-lg p-4 z-50 transform transition-all duration-500">
                 <p class="text-sm mb-1">Logged in as: </p>
                 <p class="font-semibold"><?= htmlspecialchars($_SESSION['email']); ?></p>
                 <p class="text-xs text-green-100 mb-2"><?= htmlspecialchars($_SESSION['registration_no']); ?></p>

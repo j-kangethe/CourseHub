@@ -12,6 +12,9 @@ require_role('admin');
     <title>Document</title>
 </head>
 <body>
-    <a href="../auth/logout.php">Logout</a>
+    <a href="../auth/logout.php">Logout</a><br>
+    <a href="add_course.php">Post Course</a><br>
+    <a href="add_content.php">Post content</a><br>
+    <a href="manage_courses.php">Manage Courses</a>
 </body>
 </html>

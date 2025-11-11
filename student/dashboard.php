@@ -35,16 +35,24 @@ require_role('student')
             </nav>
         </div>
 
-        <div class="border-t border-green-500 mt-6 pt-4">
-            <p class="text-sm mb-2">Logged in as:</p>
-            <p class="font-semibold"><?= htmlspecialchars($_SESSION['fullname']); ?></p>
-            <p class="text-xs text-green-100 mb-4"><?= htmlspecialchars($_SESSION['registration_no']); ?></p>
-            <p style="font-size: 17px; border:solid 1px green" class="text-xs text-green-70 mb-4"><?= htmlspecialchars($_SESSION['role']);?></p>
-            <a href="../auth/logout.php" 
-               class="w-full inline-block text-center bg-red-500 hover:bg-red-600 px-3 py-2 rounded text-white font-semibold">
-               Logout
-            </a>
+
+        <div class="relative px-4 py-2 text-white">
+            <div class="flex items-center justify-between cursor-pointer" id="userToggle">
+                <p class="font-semibold"><?= htmlspecialchars($_SESSION['fullname']); ?></p>
+                <span id="arrow" class="transition-transform duration-500">▼</span>
+            </div>
+
+            <!-- Dropdown -->
+
+            <div  id="userDropdown" class="origin-top scale-y-0 opacity-0 left-0 mt-2 w-64 bg-green-700 text-white rounded-lg shadow-lg p-4 z-50 transform transition-all duration-500">
+                <p class="text-sm mb-1">Logged in as: </p>
+                <p class="font-semibold"><?= htmlspecialchars($_SESSION['email']); ?></p>
+                <p class="text-xs text-green-100 mb-2"><?= htmlspecialchars($_SESSION['registration_no']); ?></p>
+                <p class="text-xs border border-green-400 p-1 rounded mb-3"><?= htmlspecialchars($_SESSION['role']); ?></p>
+                <a href="../auth/logout.php" class="block text-center bg-red-500 hover: bg-red-600 px-3 py-2 rounded font-semibold">Logout</a>
+            </div>
         </div>
+
     </aside>
 
     <!-- Main Content -->
@@ -89,5 +97,34 @@ require_role('student')
         </div>
     </main>
 
+    <script>
+        const toggle = document.getElementById('userToggle');
+        const dropdown = document.getElementById('userDropdown');
+        const arrow = document.getElementById('arrow');
+
+        toggle.addEventListener('click', ()=>{
+            const isOpen = dropdown.classList.contains('scale-y-100');
+            if (isOpen){
+                dropdown.classList.replace('scale-y-100', 'scale-y-0');
+                dropdown.classList.replace('opacity-100', 'opacity-0');
+                arrow.classList.remove('rotate-200');
+            }
+            else{
+                dropdown.classList.replace('scale-y-0', 'scale-y-100');
+                dropdown.classList.replace('opacity-0', 'opacity-100');
+                arrow.classList.add('rotate-200');
+            }
+        });
+
+        // Close on clicking outside
+
+        document.addEventListener('click', ()=>{
+            if (!toggle.contains(e.target) && !dropdown.contains(e.target)){
+                dropdown.classList.replace('scale-y-100','scale-y-0');
+                dropdown.classList.replace('opacity-100', 'opacity-0');
+                arrow.classList.remove('rotate-200')
+            }
+        });
+    </script>
 </body>
 </html>

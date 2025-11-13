@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
     <div class="w-full max-w-lg bg-white p-8 rounded-xl shadow-2xl">
-    <h1 class="text-3xl font-bold text-center text-green-600 mb-6">📘 Add a New Course</h1>
+    <h1 class="text-3xl font-bold text-center text-green-600 mb-6">Add a New Course</h1>
 
     <?php if ($error_message): ?>
       <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">

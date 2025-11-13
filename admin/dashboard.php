@@ -15,6 +15,7 @@ require_role('admin');
     <a href="../auth/logout.php">Logout</a><br>
     <a href="add_course.php">Post Course</a><br>
     <a href="add_content.php">Post content</a><br>
-    <a href="manage_courses.php">Manage Courses</a>
+    <a href="manage_courses.php">Manage Courses</a><br>
+    <a href="create_admin.php">Create an Admin</a>
 </body>
 </html>

@@ -19,14 +19,27 @@ $success_message = '';
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     global $mysqli;
 
+    $user_type = $_POST['user_type'];
+
+    if ($user_type == 'admin'){
+        $pattern = '/^[A-Z]{4,6}\/\d{3}$/';
+        $error_message = 'Invalid registration number format. Use format like ADMIN/001.';
+    }
+    else{
+        $pattern = '/^[A-Z]{4,6}\/\d{4}\/\d{4,6}$/';
+        $error_message = 'Invalid registration number format. Use format like BSCCS/2024/55984.';
+    }
+
     $registration_no = trim($_POST['registration_no']);
     $password = $_POST['password'];
 
     if (empty($registration_no) || empty($password)) {
         $error_message = "Both fields are required.";
-    } elseif (!preg_match('/^[A-Z]{4,6}\/\d{4}\/\d{4,6}$/', $registration_no)) {
-        $error_message = "Invalid registration number format. Use format like BSCCS/2024/55984.";
-    } else {
+    } elseif (!preg_match($pattern, $registration_no)) {
+       $error_message;
+    } 
+    
+    else {
         $sql = "SELECT * FROM users WHERE registration_no = ?";
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param("s", $registration_no);
@@ -101,12 +114,20 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         <form action="" method="POST" class="space-y-6">
             <div>
+            <label for="role" class="block text-sm font-medium text-gray-700">Role:</label>
+            <select name="user_type" class="form-control mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
+                    focus:outline-none focus:ring-green-500 focus:border-green-500 text-center">
+                <option value="student">Student</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div><br>
+            <div>
                 <label for="registration_no" class="block text-sm font-medium text-gray-800">Registration Number:</label>
                 <input type="text" id="registration_no" name="registration_no" required 
                        oninput="this.value = this.value.toUpperCase()"
                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm 
                               focus:outline-none focus:ring-green-500 focus:border-green-500 uppercase"
-                              pattern="^[A-Z]{4,6}/\d{4}/\d{4,6}$">
+                              >
             </div>
 
             <div>
@@ -144,11 +165,14 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     </div>
 
     <script>
+
+
         // show overlay when form submits
         document.querySelector("form").addEventListener("submit", function() {
             document.getElementById("overlay").classList.remove("hidden");
         });
     </script>
+    
 
     <?php if ($success_message): ?>
     <script>

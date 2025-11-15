@@ -1,7 +1,13 @@
 <?php
 
 include '../auth/auth_guard.php';
-require_role('student')
+include '../config/db.php';
+require_role('student');
+
+$today = date('Y-m-d');
+
+$result = $mysqli->query("SELECT * FROM announcements WHERE status = 'active' AND (expires_at IS NULL OR expires_at >= '$today') ORDER BY created_at DESC LIMIT 5");
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,8 +68,27 @@ require_role('student')
             Here’s your personalized student dashboard where you can view your courses, progress, and updates.
         </p>
 
+        <div class="bg-white p-6 rounded-xl shadow mb-6">
+            <h2 class="text-xl font-bold mb-3">Latest Announcements</h2>
+
+            <?php if ($result->num_rows == 0): ?>
+                <p class="text-gray-500">No announcements available</p>
+
+            <?php  else: ?>
+                <ul class="space-y-3">
+                    <?php while ($row = $result->fetch_assoc()) :?> 
+                        <li class="border-b pb-2">
+                            <h3 class="font-semibold text-green-600"><?= $row['title'] ?></h3>
+                            <p class="text-gray-700"><?= substr($row['message'], 0 , 100) ?>...</p>
+                            <a href="#" onclick="openModal(<?= $row['id'] ?>)" class="text-blue-600 text-sm">Read More</a>
+                        </li>
+                    <?php endwhile; ?>
+                </ul>
+            <?php endif; ?>
+        </div>
+
         <!-- Stats Section -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <!-- <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-xl font-semibold text-green-700 mb-2">Enrolled Courses</h2>
                 <p class="text-3xl font-bold text-gray-800">5</p>
@@ -80,7 +105,7 @@ require_role('student')
             </div>
         </div>
 
-        <!-- Recent Activity -->
+        Recent Activity 
         <div class="bg-white rounded-lg shadow-md p-6">
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">Recent Activity</h2>
             <ul class="divide-y divide-gray-200">
@@ -94,7 +119,7 @@ require_role('student')
                     <span class="font-semibold text-green-700">Completed:</span> HTML & CSS Module ✅
                 </li>
             </ul>
-        </div>
+        </div> -->
     </main>
 
     <script>
@@ -125,6 +150,11 @@ require_role('student')
                 arrow.classList.remove('rotate-200')
             }
         });
+
+        function openModal(id){
+            window.location.href = "announcement_view.php?id=" + id;
+
+        }
     </script>
 </body>
 </html>

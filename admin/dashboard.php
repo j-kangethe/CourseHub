@@ -47,6 +47,7 @@ require_role('admin')
                         <a href="send_email.php" class="block px-2 py-1 rounded hover:bg-green-700">Emails</a>
                         <a href="bulk_email.php" class="block px-2 py-1 rounded hover:bg-green-700">Bulk Emails</a>
                         <a href="dashboard.php" class="block px-2 py-1 rounded hover:bg-green-700">SMS</a>
+                        <a href="announcement.php" class="block px-2 py-1 rounded hover:bg-green-700">Announcements</a>
                     </div>
                 </div>
 
